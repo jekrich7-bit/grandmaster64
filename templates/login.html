@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Login — GrandMaster64{% endblock %}
+{% block content %}
+<div style="max-width:460px;margin:4vh auto 0">
+  <div class="card" id="authCard">
+    <div style="text-align:center;margin-bottom:18px">
+      <div style="width:74px;height:74px;margin:0 auto 12px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:40px;
+        background:linear-gradient(145deg,#BFE0FF,#6FB1F5);color:#0A1E38;box-shadow:var(--sh)">♞</div>
+      <h2 style="font-size:1.35rem;font-weight:800" data-i18n="app_title">GrandMaster64</h2>
+      <p class="muted" data-i18n="app_tagline"></p>
+    </div>
+    <div class="tabs" style="margin-bottom:16px">
+      <button class="tab active" id="tabLogin" data-i18n="login"></button>
+      <button class="tab" id="tabReg" data-i18n="register"></button>
+    </div>
+    <div id="banner" class="banner" style="margin-bottom:12px"></div>
+    <form id="authForm">
+      <div class="field" id="roleField" style="display:none">
+        <label data-i18n="choose_role"></label>
+        <select class="input" id="regRole">
+          <option value="child" data-i18n="role_child"></option>
+          <option value="parent" data-i18n="role_parent"></option>
+        </select>
+      </div>
+      <div class="field">
+        <label data-i18n="name"></label>
+        <input class="input" id="fName" autocomplete="name" data-i18n-ph="name">
+      </div>
+      <div class="field">
+        <label data-i18n="username"></label>
+        <input class="input" id="fUser" autocomplete="username" data-i18n-ph="username">
+      </div>
+      <div class="field">
+        <label data-i18n="password"></label>
+        <input class="input" id="fPass" type="password" autocomplete="current-password" data-i18n-ph="password">
+      </div>
+      <button class="btn b-primary" style="width:100%;padding:13px" id="authBtn" data-i18n="login"></button>
+      <p class="muted" style="text-align:center;margin-top:14px" id="demoHint" data-i18n="demo_hint"></p>
+    </form>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/login.js') }}"></script>
+{% endblock %}

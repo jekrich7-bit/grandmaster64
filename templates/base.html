@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}GrandMaster64{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/soft.css') }}">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>♞</text></svg>">
+<script src="{{ url_for('static', filename='js/i18n.js') }}"></script>
+<script>window.APP_USER = {{ (user or {}) | tojson }};</script>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">♞</span>
+    <span class="brand-name"><b>GrandMaster64</b><small data-i18n="app_tagline">Chess</small></span>
+  </div>
+  <nav class="nav">
+    {% if user %}
+      {% if user.role == 'admin' %}
+        <a class="navlink" href="/admin" data-i18n="nav_admin"></a>
+      {% endif %}
+      {% if user.role in ('teacher', 'admin') %}
+        <a class="navlink" href="/teacher" data-i18n="nav_teacher"></a>
+      {% endif %}
+      {% if user.role in ('parent', 'admin') %}
+        <a class="navlink" href="/parent" data-i18n="nav_parent"></a>
+      {% endif %}
+      {% if user.role == 'child' %}
+        <a class="navlink" href="/play" data-i18n="nav_trainer"></a>
+      {% endif %}
+    {% endif %}
+  </nav>
+  <div class="top-right">
+    <select id="langSelect" class="langsel" title="Language">
+      <option value="uz">O'zbekcha</option>
+      <option value="en">English</option>
+      <option value="ru">Русский</option>
+      <option value="tr">Türkçe</option>
+      <option value="ar">العربية</option>
+    </select>
+    {% if user %}
+      <span class="uchip"><b>{{ user.name }}</b><small data-i18n="role_{{ user.role }}"></small></span>
+      <button class="btn btn-sm b-ghost" id="logoutBtn" style="background:rgba(255,255,255,.14);color:#EAF4FF" data-i18n="logout"></button>
+    {% endif %}
+  </div>
+</header>
+<main class="layout">{% block content %}{% endblock %}</main>
+<script src="{{ url_for('static', filename='js/common.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

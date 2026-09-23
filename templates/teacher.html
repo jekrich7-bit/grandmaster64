@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}O'qituvchi — GrandMaster64{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div><h1 data-i18n="nav_teacher"></h1><p data-i18n="app_tagline"></p></div>
+</div>
+<div class="tabs">
+  <button class="tab active" data-tab="students" data-i18n="students"></button>
+  <button class="tab" data-tab="tasks" data-i18n="tasks"></button>
+  <button class="tab" data-tab="videos" data-i18n="videos"></button>
+</div>
+
+<!-- students -->
+<section id="tab-students" class="tabpane">
+  <div class="card">
+    <div class="card-title-row">
+      <h3 style="margin:0"><span class="ic">👥</span><span data-i18n="my_students"></span></h3>
+      <input class="input" id="studentSearch" style="max-width:240px" data-i18n-ph="search">
+    </div>
+    <div class="tbl-wrap"><table class="table" id="studentTable">
+      <thead><tr>
+        <th data-i18n="name"></th><th data-i18n="role_parent"></th>
+        <th data-i18n="total_solved"></th><th data-i18n="hints_used"></th>
+        <th data-i18n="accuracy"></th><th data-i18n="solved_today"></th><th data-i18n="actions"></th>
+      </tr></thead>
+      <tbody id="studentRows"><tr><td colspan="7" class="empty" data-i18n="loading"></td></tr></tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- tasks -->
+<section id="tab-tasks" class="tabpane hidden">
+  <div class="grid g2">
+    <div class="card">
+      <h3><span class="ic">📋</span><span data-i18n="new_task"></span></h3>
+      <div class="field"><label data-i18n="task_name"></label><input class="input" id="tkTitle" data-i18n-ph="task_name"></div>
+      <div class="field"><label data-i18n="task_desc"></label><textarea class="input" id="tkDesc"></textarea></div>
+      <div class="row">
+        <div class="field"><label data-i18n="assign_to"></label>
+          <select class="input" id="tkChild"></select>
+        </div>
+        <div class="field"><label data-i18n="difficulty"></label>
+          <select class="input" id="tkDiff">
+            <option value="easy" data-i18n="easy"></option>
+            <option value="medium" data-i18n="medium"></option>
+            <option value="hard" data-i18n="hard"></option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field"><label data-i18n="num_puzzles"></label><input class="input" id="tkCount" type="number" value="5" min="1" max="50"></div>
+        <div class="field"><label data-i18n="due_days"></label><input class="input" id="tkDue" type="number" value="7" min="1" max="60"></div>
+      </div>
+      <button class="btn b-primary" id="tkCreate" style="width:100%"><span data-i18n="create"></span></button>
+    </div>
+    <div class="card">
+      <h3><span class="ic">🗂</span><span data-i18n="my_tasks"></span></h3>
+      <div id="taskBox" style="display:flex;flex-direction:column;gap:12px;max-height:520px;overflow:auto"></div>
+    </div>
+  </div>
+</section>
+
+<!-- videos & sections -->
+<section id="tab-videos" class="tabpane hidden">
+  <div class="grid g2">
+    <div class="card">
+      <h3><span class="ic">📺</span><span data-i18n="add_video"></span></h3>
+      <div class="field"><label data-i18n="title"></label><input class="input" id="vidTitle" data-i18n-ph="title"></div>
+      <div class="field"><label data-i18n="sections"></label><select class="input" id="vidSection"></select></div>
+      <div class="field"><label>YouTube</label><input class="input" id="vidUrl" placeholder="https://youtube.com/watch?v=..."></div>
+      <div class="field"><label data-i18n="upload_file"></label>
+        <input class="input" id="vidFile" type="file" accept="video/mp4,video/webm,video/quicktime,video/x-matroska">
+      </div>
+      <p class="muted mb" data-i18n="file_hint"></p>
+      <button class="btn b-primary" id="vidAdd" style="width:100%"><span data-i18n="add"></span></button>
+    </div>
+    <div class="card">
+      <h3><span class="ic">📚</span><span data-i18n="sections"></span></h3>
+      <div class="row mb">
+        <div class="field"><label data-i18n="section_title"></label><input class="input" id="secTitle"></div>
+        <div class="field" style="flex:0 0 auto;align-self:flex-end"><button class="btn" id="secAdd" data-i18n="add"></button></div>
+      </div>
+      <div id="videoList" style="display:flex;flex-direction:column;gap:10px;max-height:420px;overflow:auto"></div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/teacher.js') }}"></script>
+{% endblock %}
