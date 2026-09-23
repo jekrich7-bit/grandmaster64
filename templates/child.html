@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}Mashq — GrandMaster64{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1 data-i18n="trainer"></h1>
+    <p data-i18n="app_tagline"></p>
+  </div>
+  <div class="flex">
+    <span class="chip c-sky" id="todayChip">♟ <b id="todayCount">0</b> <span data-i18n="solved_today"></span></span>
+    <span class="chip c-warn">💡 <b id="streakChip">0</b> <span data-i18n="streak"></span></span>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" data-tab="trainer" data-i18n="trainer"></button>
+  <button class="tab" data-tab="tasks" data-i18n="tasks"></button>
+  <button class="tab" data-tab="lessons" data-i18n="lessons"></button>
+  <button class="tab" data-tab="stats" data-i18n="my_stats"></button>
+</div>
+
+<!-- ============ TRAINER ============ -->
+<section id="tab-trainer" class="tabpane">
+  <div class="grid" style="grid-template-columns:minmax(0,1fr) 300px">
+    <div class="card">
+      <div class="banner" id="moveBanner"></div>
+      <div id="boardIdle" class="empty" style="padding:60px 16px">
+        <span class="big">♟</span>
+        <p data-i18n="move_now"></p>
+        <div style="margin-top:18px"><button class="btn b-primary" id="idleStart" data-i18n="start_puzzle"></button></div>
+      </div>
+      <div id="boardWrap" class="hidden">
+        <div class="board-shell"><div id="board"></div></div>
+        <div class="board-caption">
+          <div class="pbar"><span class="av" id="sideAv">♙</span><span id="sideTxt"></span></div>
+          <div class="flex">
+            <button class="btn btn-sm" id="hintBtn">💡 <span data-i18n="hint"></span> <span id="hintLeft" class="chip c-warn">3</span></button>
+            <button class="btn btn-sm b-dark" id="giveupBtn" data-i18n="give_up"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card" id="puzzleCard">
+      <h3><span class="ic">♛</span><span data-i18n="puzzles"></span></h3>
+      <div id="puzzleMeta" class="empty" style="padding:26px 10px"><span class="big">🎯</span><span data-i18n="move_now"></span></div>
+      <div id="puzzleMetaFull" class="hidden">
+        <div class="flex" style="justify-content:space-between;margin-bottom:10px">
+          <span class="chip c-sky"><b id="pzRating"></b> <span data-i18n="rating"></span></span>
+          <span class="chip" id="pzTheme"></span>
+        </div>
+        <div class="field">
+          <label data-i18n="time"></label>
+          <div class="progress"><i id="timeBar" style="width:0%"></i></div>
+        </div>
+        <div class="muted" id="pzTimer" style="text-align:center;margin-bottom:14px">0:00</div>
+        <div class="btn-row" style="justify-content:center">
+          <button class="btn b-primary" id="nextPuzzle" data-i18n="next_puzzle"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TASKS ============ -->
+<section id="tab-tasks" class="tabpane hidden">
+  <div class="grid g2" id="taskList"></div>
+</section>
+
+<!-- ============ LESSONS ============ -->
+<section id="tab-lessons" class="tabpane hidden">
+  <div id="sectionList"></div>
+</section>
+
+<!-- ============ STATS ============ -->
+<section id="tab-stats" class="tabpane hidden">
+  <div class="grid g4" style="margin-bottom:18px">
+    <div class="stat tint"><span class="ic">🏆</span><div class="num" id="stSolved">0</div><div class="lbl" data-i18n="total_solved"></div></div>
+    <div class="stat"><span class="ic">🎯</span><div class="num" id="stAcc">0%</div><div class="lbl" data-i18n="accuracy"></div></div>
+    <div class="stat"><span class="ic">💡</span><div class="num" id="stHints">0</div><div class="lbl" data-i18n="hints_used"></div></div>
+    <div class="stat"><span class="ic">⭐</span><div class="num" id="stBest">0</div><div class="lbl" data-i18n="best_score"></div></div>
+  </div>
+  <div class="grid g2">
+    <div class="card"><h3><span class="ic">📈</span><span data-i18n="last14"></span></h3><div id="chartBox"></div></div>
+    <div class="card"><h3><span class="ic">🧩</span><span data-i18n="by_theme"></span></h3><div id="themeBox"></div></div>
+  </div>
+  <div class="card mt"><h3><span class="ic">🕘</span><span data-i18n="my_activity"></span></h3><div class="log" id="myLog"></div></div>
+</section>
+
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/board.js') }}"></script>
+<script src="{{ url_for('static', filename='js/child.js') }}"></script>
+{% endblock %}

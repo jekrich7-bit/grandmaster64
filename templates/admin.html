@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+{% block title %}Admin — GrandMaster64{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div><h1 data-i18n="nav_admin"></h1><p data-i18n="app_tagline"></p></div>
+</div>
+<div class="tabs">
+  <button class="tab active" data-tab="dash" data-i18n="dashboard"></button>
+  <button class="tab" data-tab="users" data-i18n="users"></button>
+  <button class="tab" data-tab="puzzles" data-i18n="puzzles"></button>
+  <button class="tab" data-tab="tasks" data-i18n="tasks"></button>
+  <button class="tab" data-tab="videos" data-i18n="videos"></button>
+  <button class="tab" data-tab="settings" data-i18n="settings"></button>
+  <button class="tab" data-tab="logs" data-i18n="logs"></button>
+</div>
+
+<!-- dashboard -->
+<section id="tab-dash" class="tabpane">
+  <div class="grid g4" style="margin-bottom:18px">
+    <div class="stat tint"><span class="ic">👥</span><div class="num" id="dUsers">0</div><div class="lbl" data-i18n="total_users"></div></div>
+    <div class="stat"><span class="ic">🧩</span><div class="num" id="dPuzzles">0</div><div class="lbl" data-i18n="total_puzzles"></div></div>
+    <div class="stat"><span class="ic">📹</span><div class="num" id="dVideos">0</div><div class="lbl" data-i18n="total_videos"></div></div>
+    <div class="stat"><span class="ic">🏆</span><div class="num" id="dSolved">0</div><div class="lbl" data-i18n="solved_today"></div></div>
+  </div>
+  <div class="grid g2">
+    <div class="card">
+      <h3><span class="ic">📊</span><span data-i18n="recent_events"></span></h3>
+      <div class="log" id="dEvents"></div>
+    </div>
+    <div class="card">
+      <h3><span class="ic">🧒</span><span data-i18n="students"></span></h3>
+      <div id="dPerChild" style="display:flex;flex-direction:column;gap:10px"></div>
+    </div>
+  </div>
+</section>
+
+<!-- users -->
+<section id="tab-users" class="tabpane hidden">
+  <div class="card">
+    <div class="card-title-row">
+      <h3 style="margin:0"><span class="ic">👥</span><span data-i18n="users"></span></h3>
+      <div class="flex">
+        <input class="input" id="uSearch" style="max-width:220px" data-i18n-ph="search">
+        <button class="btn b-primary btn-sm" id="uAddBtn" data-i18n="add_user"></button>
+      </div>
+    </div>
+    <div class="tbl-wrap"><table class="table">
+      <thead><tr><th data-i18n="name"></th><th data-i18n="username"></th><th data-i18n="role"></th><th data-i18n="role_parent"></th><th data-i18n="active"></th><th data-i18n="actions"></th></tr></thead>
+      <tbody id="uRows"></tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- puzzles -->
+<section id="tab-puzzles" class="tabpane hidden">
+  <div class="card mb">
+    <div class="card-title-row">
+      <h3 style="margin:0"><span class="ic">🧩</span><span data-i18n="puzzle_pool"></span>
+        <span class="chip c-sky" id="pzTotal"></span></h3>
+      <div class="flex">
+        <span class="chip" id="pzStatus"></span>
+        <button class="btn b-dark btn-sm" id="pzRefresh">🔄 <span data-i18n="refresh_lichess"></span></button>
+      </div>
+    </div>
+    <div class="tbl-wrap"><table class="table">
+      <thead><tr><th>ID</th><th data-i18n="rating"></th><th data-i18n="theme"></th><th data-i18n="source"></th><th data-i18n="active"></th><th data-i18n="actions"></th></tr></thead>
+      <tbody id="pzRows"></tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- tasks -->
+<section id="tab-tasks" class="tabpane hidden">
+  <div class="grid g2">
+    <div class="card">
+      <h3><span class="ic">📋</span><span data-i18n="new_task"></span></h3>
+      <div class="field"><label data-i18n="task_name"></label><input class="input" id="atkTitle"></div>
+      <div class="field"><label data-i18n="task_desc"></label><textarea class="input" id="atkDesc"></textarea></div>
+      <div class="row">
+        <div class="field"><label data-i18n="assign_to"></label><select class="input" id="atkChild"></select></div>
+        <div class="field"><label data-i18n="difficulty"></label>
+          <select class="input" id="atkDiff">
+            <option value="easy" data-i18n="easy"></option>
+            <option value="medium" data-i18n="medium"></option>
+            <option value="hard" data-i18n="hard"></option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field"><label data-i18n="num_puzzles"></label><input class="input" id="atkCount" type="number" value="5" min="1" max="50"></div>
+        <div class="field"><label data-i18n="due_days"></label><input class="input" id="atkDue" type="number" value="7" min="1" max="60"></div>
+      </div>
+      <button class="btn b-primary" id="atkCreate" style="width:100%" data-i18n="create"></button>
+    </div>
+    <div class="card">
+      <h3><span class="ic">🗂</span><span data-i18n="my_tasks"></span></h3>
+      <div id="atkBox" style="display:flex;flex-direction:column;gap:12px;max-height:520px;overflow:auto"></div>
+    </div>
+  </div>
+</section>
+
+<!-- videos -->
+<section id="tab-videos" class="tabpane hidden">
+  <div class="grid g2">
+    <div class="card">
+      <h3><span class="ic">📺</span><span data-i18n="add_video"></span></h3>
+      <div class="field"><label data-i18n="title"></label><input class="input" id="avidTitle"></div>
+      <div class="field"><label data-i18n="sections"></label><select class="input" id="avidSection"></select></div>
+      <div class="field"><label>YouTube</label><input class="input" id="avidUrl" placeholder="https://youtube.com/watch?v=..."></div>
+      <div class="field"><label data-i18n="upload_file"></label>
+        <input class="input" id="avidFile" type="file" accept="video/mp4,video/webm,video/quicktime,video/x-matroska">
+      </div>
+      <button class="btn b-primary" id="avidAdd" style="width:100%" data-i18n="add"></button>
+    </div>
+    <div class="card">
+      <h3><span class="ic">📚</span><span data-i18n="sections"></span></h3>
+      <div class="row mb">
+        <div class="field"><label data-i18n="section_title"></label><input class="input" id="asectTitle"></div>
+        <div class="field" style="flex:0 0 auto;align-self:flex-end"><button class="btn" id="asectAdd" data-i18n="add"></button></div>
+      </div>
+      <div id="avidList" style="display:flex;flex-direction:column;gap:10px;max-height:440px;overflow:auto"></div>
+    </div>
+  </div>
+</section>
+
+<!-- settings -->
+<section id="tab-settings" class="tabpane hidden">
+  <div class="card" style="max-width:720px">
+    <h3><span class="ic">⚙️</span><span data-i18n="settings"></span></h3>
+    <div class="row">
+      <div class="field"><label data-i18n="app_title"></label><input class="input" id="sAppName"></div>
+      <div class="field"><label data-i18n="tagline"></label><input class="input" id="sTagline"></div>
+    </div>
+    <div class="row">
+      <div class="field"><label data-i18n="default_lang"></label>
+        <select class="input" id="sLang">
+          <option value="uz">O'zbekcha</option><option value="en">English</option><option value="ru">Русский</option>
+          <option value="tr">Türkçe</option><option value="ar">العربية</option>
+        </select>
+      </div>
+      <div class="field"><label data-i18n="max_hints"></label><input class="input" id="sMaxHints" type="number" min="0" max="10"></div>
+      <div class="field"><label data-i18n="lichess_limit"></label><input class="input" id="sLichess" type="number" min="0" max="200"></div>
+    </div>
+    <div class="row">
+      <div class="field"><label data-i18n="rating_min"></label><input class="input" id="sRmin" type="number"></div>
+      <div class="field"><label data-i18n="rating_max"></label><input class="input" id="sRmax" type="number"></div>
+      <div class="field"><label data-i18n="hint_penalty"></label><input class="input" id="sHintPen" type="number"></div>
+      <div class="field"><label data-i18n="mistake_penalty"></label><input class="input" id="sMisPen" type="number"></div>
+    </div>
+    <div class="field" style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-radius:14px;background:var(--surface2);box-shadow:var(--sh-in)">
+      <label style="margin:0" data-i18n="allow_signup"></label>
+      <label class="switch"><input type="checkbox" id="sSignup"><i></i></label>
+    </div>
+    <button class="btn b-primary" id="sSave" style="width:100%" data-i18n="save_settings"></button>
+  </div>
+</section>
+
+<!-- logs -->
+<section id="tab-logs" class="tabpane hidden">
+  <div class="card">
+    <div class="card-title-row">
+      <h3 style="margin:0"><span class="ic">📜</span><span data-i18n="all_logs"></span></h3>
+      <div class="flex">
+        <select class="input" id="logUser" style="max-width:200px"></select>
+        <select class="input" id="logType" style="max-width:220px"></select>
+        <button class="btn btn-sm" id="logLoad" data-i18n="refresh"></button>
+      </div>
+    </div>
+    <div class="log" id="logBox" style="max-height:560px"></div>
+  </div>
+</section>
+
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+{% endblock %}

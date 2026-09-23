@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Ota-ona — GrandMaster64{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div><h1 data-i18n="nav_parent"></h1><p data-i18n="app_tagline"></p></div>
+</div>
+<div id="kidsBar" class="tabs"></div>
+<div id="parentEmpty" class="card empty hidden"><span class="big">👨‍👩‍👧</span><span data-i18n="no_children"></span></div>
+<div id="childView"></div>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/parent.js') }}"></script>
+{% endblock %}
